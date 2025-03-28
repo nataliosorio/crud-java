@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 public class requestReservationDTO {
 
-    private int id;
+    // private int id;
     private LocalDateTime checkIn;
     private LocalDateTime checkOut;
     private BigDecimal totalPrice;
@@ -18,9 +18,9 @@ public class requestReservationDTO {
     private int paymentMethod;
     
     // private List<ReservationRoom> reservationRooms;
-    public requestReservationDTO(int id, LocalDateTime checkIn, LocalDateTime checkOut, BigDecimal totalPrice,
+    public requestReservationDTO(LocalDateTime checkIn, LocalDateTime checkOut, BigDecimal totalPrice,
             int customer, int paymentMethod) {
-        this.id = id;
+        // this.id = id;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.totalPrice = totalPrice;
@@ -28,9 +28,9 @@ public class requestReservationDTO {
         this.paymentMethod = paymentMethod;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    // public void setId(int id) {
+    //     this.id = id;
+    // }
 
     public void setCheckIn(LocalDateTime checkIn) {
         this.checkIn = checkIn;
@@ -52,9 +52,9 @@ public class requestReservationDTO {
         this.paymentMethod = paymentMethod;
     }
 
-    public int getId() {
-        return id;
-    }
+    // public int getId() {
+    //     return id;
+    // }
 
     public LocalDateTime getCheckIn() {
         return checkIn;

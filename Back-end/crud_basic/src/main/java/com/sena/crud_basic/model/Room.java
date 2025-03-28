@@ -1,13 +1,13 @@
 package com.sena.crud_basic.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+// import lombok.Getter;
+// import lombok.Setter;
 
 @Entity
 @Table(name = "rooms")
-@Getter
-@Setter
+// @Getter
+// @Setter
 public class Room {
 
     @Id
@@ -30,4 +30,61 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "room_type_id", nullable = false)
     private typeRoom roomType;
+
+    public Room() {
+    }
+
+    public Room(int id, String roomNumber, String status, Hotel hotel, typeRoom roomType) {
+        this.id = id;
+        this.roomNumber = roomNumber;
+        this.status = status;
+        this.hotel = hotel;
+        this.roomType = roomType;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    public typeRoom getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(typeRoom roomType) {
+        this.roomType = roomType;
+    }
+
+   
+
+    
+
+    
 }

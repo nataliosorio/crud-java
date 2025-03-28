@@ -24,7 +24,7 @@ public class ReservationRoomController {
     @PostMapping
     public ResponseEntity<responseReservationRoomDTO> createTypeRoom(@RequestBody requestReservationRoomDTO request) {
         typeRooms.add(request);
-        responseReservationRoomDTO response = new responseReservationRoomDTO("Rol creado correctamente.");
+        responseReservationRoomDTO response = new responseReservationRoomDTO("Reserva de habitacion correctamente.");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -33,7 +33,7 @@ public class ReservationRoomController {
         if (id >= 0 && id < typeRooms.size()) {
             return new ResponseEntity<>(typeRooms.get(id), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new responseReservationRoomDTO("Rol no encontrado."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new responseReservationRoomDTO("Reserva de habitacion encontrado."), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -46,9 +46,9 @@ public class ReservationRoomController {
     public ResponseEntity<responseReservationRoomDTO> updateTypeRoom(@PathVariable int id, @RequestBody requestReservationRoomDTO request) {
         if (id >= 0 && id < typeRooms.size()) {
             typeRooms.set(id, request);
-            return new ResponseEntity<>(new responseReservationRoomDTO("Rol actualizado correctamente."), HttpStatus.OK);
+            return new ResponseEntity<>(new responseReservationRoomDTO("Reserva de habtacion correctamente."), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new responseReservationRoomDTO("Rol no encontrado."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new responseReservationRoomDTO("Reserva de habitacion encontrado."), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -56,9 +56,9 @@ public class ReservationRoomController {
     public ResponseEntity<responseReservationRoomDTO> deleteTypeRoom(@PathVariable int id) {
         if (id >= 0 && id < typeRooms.size()) {
             typeRooms.remove(id);
-            return new ResponseEntity<>(new responseReservationRoomDTO("Rol eliminado correctamente."), HttpStatus.OK);
+            return new ResponseEntity<>(new responseReservationRoomDTO("Reserva de habitación eliminada correctamente."), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new responseReservationRoomDTO("Rol no encontrado."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new responseReservationRoomDTO("Reserva de habitación no encontrada."), HttpStatus.NOT_FOUND);
         }
     }
 

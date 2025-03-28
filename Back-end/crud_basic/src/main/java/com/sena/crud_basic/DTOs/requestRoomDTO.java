@@ -1,34 +1,24 @@
 package com.sena.crud_basic.DTOs;
 
+import com.sena.crud_basic.model.Hotel;
+import com.sena.crud_basic.model.typeRoom;
+
 // import com.sena.crud_basic.model.Hotel;
 // import com.sena.crud_basic.model.typeRoom;
 
 public class requestRoomDTO {
     private String roomNumber;
-    private String status;
-     private int hotel;
-     private int roomType;
+    // private String status;
+     private Hotel hotel;
+     private typeRoom roomType;
 
-    public requestRoomDTO(String roomNumber, String status, int hotel, int roomType) {
+    public requestRoomDTO() {
+    }
+
+    public requestRoomDTO(String roomNumber,  Hotel hotel, typeRoom roomType) {
         this.roomNumber = roomNumber;
-        this.status = status;
+        // this.status = status;
         this.hotel = hotel;
-        this.roomType = roomType;
-    }
-
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setHotel(int hotel) {
-        this.hotel = hotel;
-    }
-
-    public void setRoomType(int roomType) {
         this.roomType = roomType;
     }
 
@@ -36,18 +26,27 @@ public class requestRoomDTO {
         return roomNumber;
     }
 
-    public String getStatus() {
-        return status;
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
-
-    public int getHotel() {
+    public Hotel getHotel() {
         return hotel;
     }
 
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
 
-    public int getRoomType() {
+    public typeRoom getRoomType() {
         return roomType;
     }
+
+    public void setRoomType(typeRoom roomType) {
+        this.roomType = roomType;
+    }
+
+   
+    
   
 }
