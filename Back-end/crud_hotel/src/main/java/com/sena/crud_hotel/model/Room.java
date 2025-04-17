@@ -1,10 +1,17 @@
-package com.sena.crud_basic.model;
+package com.sena.crud_hotel.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
 @Entity
-@Table(name = "rooms")
+@Table(name = "Room")
 public class Room {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_room", length = 10, nullable = false)
@@ -12,6 +19,9 @@ public class Room {
 
     @Column(name = "room_number", length = 10, nullable = false, unique = true)
     private String roomNumber;
+
+    @Column(name = "name", length = 100, nullable = false, unique = true)
+    private String name;
 
     @Column(name = "status", length = 20, nullable = false)
     private String status; // Available, Occupied, Maintenance
@@ -29,9 +39,10 @@ public class Room {
     public Room() {
     }
 
-    public Room(int id, String roomNumber, String status, Hotel hotel, typeRoom roomType) {
+    public Room(int id, String roomNumber, String name, String status, Hotel hotel, typeRoom roomType) {
         this.id = id;
         this.roomNumber = roomNumber;
+        this.name = name;
         this.status = status;
         this.hotel = hotel;
         this.roomType = roomType;
@@ -52,6 +63,15 @@ public class Room {
     public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
     }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public String getStatus() {
         return status;
@@ -77,9 +97,4 @@ public class Room {
         this.roomType = roomType;
     }
 
-   
-
-    
-
-    
 }

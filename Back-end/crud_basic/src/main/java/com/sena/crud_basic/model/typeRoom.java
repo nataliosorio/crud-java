@@ -13,13 +13,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+//con esta anotación bean se indica que la clase es una entidad
+
 @Entity(name = "typeRoom")
 @Getter
 @Setter
 public class typeRoom {
-
-     @Id
+    //@Id =  indica que es la primary key
+    @Id
+    //Indica que el valor sea generado e incremental 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
+    //@column indica que es una columna en la tabla de la base de datos
     @Column(name = "id_type_room", length = 10, nullable = false)
     private int id;
 
