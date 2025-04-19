@@ -10,12 +10,13 @@ import com.sena.crud_hotel.model.Room;
 
 public interface IRoom extends JpaRepository<Room, Integer>{
 
-    @Query(
-    "SELECT new requestRoom(r.id, r.roomNumber, r.name, r.status, h.name, t.name) " +
+
+@Query("SELECT new com.sena.crud_hotel.DTO.requestRoom(" +
+       "r.id, r.roomNumber, r.name, r.status, h.id, h.name, t.id, t.name) " +
        "FROM Room r " +
        "JOIN r.hotel h " +
-       "JOIN r.roomType t"
-    )
-    List<requestRoom> findAllRoomsWithDetails();
+       "JOIN r.roomType t")
+List<requestRoom> findAllRoomsWithDetails();
+
 
 }

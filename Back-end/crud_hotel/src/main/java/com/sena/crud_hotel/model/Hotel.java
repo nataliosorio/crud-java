@@ -2,12 +2,13 @@ package com.sena.crud_hotel.model;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 // import jakarta.persistence.JoinColumn;
 // import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -38,25 +39,29 @@ public class Hotel {
     private int stars;
 
     // Relación con City (Un hotel pertenece a una ciudad)
-    // @ManyToOne
-    // @JoinColumn(name = "city_id", nullable = false)
-    // private City city;
+    @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false)
+    private City city;
 
     // Relación con Room (Un hotel tiene muchas habitaciones)
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "hotel")
     private List<Room> rooms;
+
+    @OneToMany(mappedBy = "hotelE")
+    private List<Employee> employees;
 
     public Hotel() {
     }
 
-    public Hotel(int id, String name, String address, String phone, String email, int stars, List<Room> rooms) {
+    public Hotel(int id, String name, String address, String phone, String email, int stars, City city) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.email = email;
         this.stars = stars;
-        this.rooms = rooms;
+        this.city = city;
+        // this.rooms = rooms;
     }
 
     public void setId(int id) {
@@ -83,9 +88,9 @@ public class Hotel {
         this.stars = stars;
     }
 
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
-    }
+    // public void setRooms(List<Room> rooms) {
+    //     this.rooms = rooms;
+    // }
 
     public int getId() {
         return id;
@@ -111,8 +116,16 @@ public class Hotel {
         return stars;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
+    // public List<Room> getRooms() {
+    //     return rooms;
+    // }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     

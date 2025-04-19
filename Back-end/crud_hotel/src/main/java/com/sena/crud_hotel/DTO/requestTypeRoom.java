@@ -50,9 +50,4 @@ public class requestTypeRoom {
         return priceNight;
     }
 
-    
-
-
-
-
 }

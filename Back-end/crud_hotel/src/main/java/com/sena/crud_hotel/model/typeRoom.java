@@ -1,6 +1,7 @@
 package com.sena.crud_hotel.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 // import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity(name = "typeRoom")
 public class typeRoom {
@@ -30,9 +32,9 @@ public class typeRoom {
     private BigDecimal priceNight;
 
     // Relación con Room (una categoría de habitación puede estar en muchas habitaciones)
-    // @OneToMany(mappedBy = "roomType")
-    // private List<Room> rooms;
-
+    @OneToMany(mappedBy = "roomType")
+    private List<Room> rooms;
+   
     public typeRoom() {
     }
 
