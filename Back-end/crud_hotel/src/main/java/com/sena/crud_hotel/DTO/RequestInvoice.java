@@ -3,84 +3,94 @@ package com.sena.crud_hotel.DTO;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.sena.crud_hotel.model.PaymentStatus;
+
+
 public class RequestInvoice {
 
-     private int id;
-    private int idReservation;
+    private int id;
+
+    private int reservationId;
+
     private BigDecimal subtotal;
     private BigDecimal tax;
     private BigDecimal total;
-    private String paymentStatus;
-    private LocalDateTime issueDate;
 
+    private PaymentStatus paymentStatus;
+
+    private LocalDateTime issueDate;
+    
+
+  
     public RequestInvoice() {
     }
 
-    public RequestInvoice(int id, int idReservation, BigDecimal subtotal, BigDecimal tax,
-                     BigDecimal total, String paymentStatus, LocalDateTime issueDate) {
+    public RequestInvoice(int id, int reservationId, BigDecimal subtotal, BigDecimal tax, BigDecimal total,
+    PaymentStatus paymentStatus, LocalDateTime issueDate) {
         this.id = id;
-        this.idReservation = idReservation;
+        this.reservationId = reservationId;
         this.subtotal = subtotal;
         this.tax = tax;
         this.total = total;
         this.paymentStatus = paymentStatus;
         this.issueDate = issueDate;
-    }
-
-    // Getters y setters
-    public int getId() {
-        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getIdReservation() {
-        return idReservation;
-    }
-
-    public void setIdReservation(int idReservation) {
-        this.idReservation = idReservation;
-    }
-
-    public BigDecimal getSubtotal() {
-        return subtotal;
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
     }
 
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
 
-    public BigDecimal getTax() {
-        return tax;
-    }
-
     public void setTax(BigDecimal tax) {
         this.tax = tax;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
     }
 
     public void setTotal(BigDecimal total) {
         this.total = total;
     }
 
-    public String getPaymentStatus() {
-        return paymentStatus;
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setIssueDate(LocalDateTime issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getReservationId() {
+        return reservationId;
+    }
+
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
+
+    public BigDecimal getTax() {
+        return tax;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
     }
 
     public LocalDateTime getIssueDate() {
         return issueDate;
     }
 
-    public void setIssueDate(LocalDateTime issueDate) {
-        this.issueDate = issueDate;
-    }
+    
 }

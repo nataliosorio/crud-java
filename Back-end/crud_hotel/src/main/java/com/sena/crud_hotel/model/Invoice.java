@@ -19,7 +19,7 @@ public class Invoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_invoice", nullable = false)
+    @Column(name = "id_invoice")
     private int id;
 
     @OneToOne
@@ -36,17 +36,20 @@ public class Invoice {
     private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment_status", length = 20, nullable = false)
+    @Column(name = "payment_status", nullable = false, length = 20)
     private PaymentStatus paymentStatus;
 
     @Column(name = "issue_date", nullable = false)
     private LocalDateTime issueDate;
 
+    // @Column(name = "payment_method", length = 30)
+    // private String paymentMethod;
+
     public Invoice() {
     }
 
-    public Invoice(int id, Reservation reservation, BigDecimal subtotal, BigDecimal tax, 
-                  BigDecimal total, PaymentStatus paymentStatus, LocalDateTime issueDate) {
+    public Invoice(int id, Reservation reservation, BigDecimal subtotal, BigDecimal tax, BigDecimal total,
+            PaymentStatus paymentStatus, LocalDateTime issueDate) {
         this.id = id;
         this.reservation = reservation;
         this.subtotal = subtotal;
@@ -54,62 +57,73 @@ public class Invoice {
         this.total = total;
         this.paymentStatus = paymentStatus;
         this.issueDate = issueDate;
-    }
-
-    // Getters y setters
-    public int getId() {
-        return id;
+        // this.paymentMethod = paymentMethod;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public Reservation getReservation() {
-        return reservation;
-    }
-
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
-    }
-
-    public BigDecimal getSubtotal() {
-        return subtotal;
     }
 
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
 
-    public BigDecimal getTax() {
-        return tax;
-    }
-
     public void setTax(BigDecimal tax) {
         this.tax = tax;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
     }
 
     public void setTotal(BigDecimal total) {
         this.total = total;
     }
 
-    public PaymentStatus getPaymentStatus() {
-        return paymentStatus;
-    }
-
     public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public void setIssueDate(LocalDateTime issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    // public void setPaymentMethod(String paymentMethod) {
+    //     this.paymentMethod = paymentMethod;
+    // }
+
+    public int getId() {
+        return id;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
+
+    public BigDecimal getTax() {
+        return tax;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
     }
 
     public LocalDateTime getIssueDate() {
         return issueDate;
     }
 
-    public void setIssueDate(LocalDateTime issueDate) {
-        this.issueDate = issueDate;
-    }
+    // public String getPaymentMethod() {
+    //     return paymentMethod;
+    // }
+
+    
+
 }

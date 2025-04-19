@@ -3,37 +3,64 @@ package com.sena.crud_hotel.DTO;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+
 public class requestReservation {
 
+    
     private int id;
-    private int idCliente;
-    private String clientName;
+
+    // Datos del cliente
+    private int customerId;
+    private String customerFullName;
+
+    // Datos del empleado
+    private int employeeId;
+    private String employeeFullName;
+
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
+
     private String status;
     private String notes;
-    private int idEmployee;
-    private String employeeName;
+    private LocalDateTime createdAt;
+
     private List<RequestReservationRoom> rooms;
+
     private RequestInvoice invoice;
 
-    public requestReservation() {
+    // Constructor vacío (recomendado para frameworks como Jackson)
+    public requestReservation() {}
+
+    // Constructor completo
+    public requestReservation(int id,
+        int customerId,
+        String customerFullName,
+        int employeeId,
+        String employeeFullName,
+        LocalDateTime checkInDate,
+        LocalDateTime checkOutDate,
+        String status,
+        String notes,
+        LocalDateTime createdAt,
+        List<RequestReservationRoom> rooms,
+        RequestInvoice invoice) {
+            this.id = id;
+            this.customerId = customerId;
+            this.customerFullName = customerFullName;
+            this.employeeId = employeeId;
+            this.employeeFullName = employeeFullName;
+            this.checkInDate = checkInDate;
+            this.checkOutDate = checkOutDate;
+            this.status = status;
+            this.notes = notes;
+            this.createdAt = createdAt;
+            this.rooms = rooms;
+            this.invoice = invoice;
     }
 
-    public requestReservation(int id,int idCliente, String clientName, LocalDateTime checkInDate, LocalDateTime checkOutDate, String status,
-                         String notes, int idEmployee, String employeeName) {
-        this.id = id;
-        this.idCliente = idCliente;
-        this.clientName = clientName;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.status = status;
-        this.notes = notes;
-        this.idEmployee = idEmployee;
-        this.employeeName = employeeName;
-    }
+    // Getters y Setters (puedes generarlos automáticamente con tu IDE)
 
-    // Getters y setters
     public int getId() {
         return id;
     }
@@ -42,24 +69,38 @@ public class requestReservation {
         this.id = id;
     }
 
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public int getIdCliente() {
-        return idCliente;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
-    public String getClientName() {
-        return clientName;
+    public String getCustomerFullName() {
+        return customerFullName;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public void setCustomerFullName(String customerFullName) {
+        this.customerFullName = customerFullName;
     }
 
-   
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
+    }
+
     public LocalDateTime getCheckInDate() {
         return checkInDate;
     }
@@ -92,20 +133,12 @@ public class requestReservation {
         this.notes = notes;
     }
 
-    public int getIdEmployee() {
-        return idEmployee;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setIdEmployee(int idEmployee) {
-        this.idEmployee = idEmployee;
-    }
-
-    public String getEmployeeName() {
-        return employeeName;
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public List<RequestReservationRoom> getRooms() {
@@ -123,6 +156,8 @@ public class requestReservation {
     public void setInvoice(RequestInvoice invoice) {
         this.invoice = invoice;
     }
+    
+
 
    
     

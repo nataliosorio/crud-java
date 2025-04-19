@@ -25,12 +25,16 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_reservation", nullable = false)
+    @Column(name = "id_reservation")
     private int id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "id_employee", nullable = false)
+    private Employee employee;
 
     @Column(name = "check_in_date", nullable = false)
     private LocalDateTime checkInDate;
@@ -39,7 +43,7 @@ public class Reservation {
     private LocalDateTime checkOutDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 20, nullable = false)
+    @Column(name = "status", nullable = false, length = 20)
     private EnumReservation status;
 
     @Column(name = "notes", length = 500)
@@ -47,11 +51,6 @@ public class Reservation {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
-
-    // Relación con el empleado que registra la reservación
-    @ManyToOne
-    @JoinColumn(name = "id_employee", nullable = false)
-    private Employee employee;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationRoom> reservationRooms = new ArrayList<>();
@@ -62,21 +61,19 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(int id, Customer customer, LocalDateTime checkInDate, LocalDateTime checkOutDate, EnumReservation status, 
-                       String notes, LocalDateTime createdAt, Employee employee) {
+    public Reservation(int id, Customer customer, Employee employee, LocalDateTime checkInDate,
+            LocalDateTime checkOutDate, EnumReservation status, String notes, LocalDateTime createdAt,
+            List<ReservationRoom> reservationRooms, Invoice invoice) {
         this.id = id;
-       this.customer = customer;
+        this.customer = customer;
+        this.employee = employee;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.status = status;
         this.notes = notes;
         this.createdAt = createdAt;
-        this.employee = employee;
-    }
-
-    // Getters y setters
-    public int getId() {
-        return id;
+        this.reservationRooms = reservationRooms;
+        this.invoice = invoice;
     }
 
     public void setId(int id) {
@@ -87,73 +84,81 @@ public class Reservation {
         this.customer = customer;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-    
-    public LocalDateTime getCheckInDate() {
-        return checkInDate;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public void setCheckInDate(LocalDateTime checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public LocalDateTime getCheckOutDate() {
-        return checkOutDate;
-    }
-
     public void setCheckOutDate(LocalDateTime checkOutDate) {
         this.checkOutDate = checkOutDate;
-    }
-
-    public EnumReservation getStatus() {
-        return status;
     }
 
     public void setStatus(EnumReservation status) {
         this.status = status;
     }
 
-    public String getNotes() {
-        return notes;
-    }
-
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
+    public void setReservationRooms(List<ReservationRoom> reservationRooms) {
+        this.reservationRooms = reservationRooms;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public LocalDateTime getCheckInDate() {
+        return checkInDate;
+    }
+
+    public LocalDateTime getCheckOutDate() {
+        return checkOutDate;
+    }
+
+    public EnumReservation getStatus() {
+        return status;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public List<ReservationRoom> getReservationRooms() {
         return reservationRooms;
     }
 
-    public void setReservationRooms(List<ReservationRoom> reservationRooms) {
-        this.reservationRooms = reservationRooms;
-    }
-
     public Invoice getInvoice() {
         return invoice;
     }
 
-    public void setInvoice(Invoice invoice) {
-        this.invoice = invoice;
-    }
+    
+
+    
 
   
 }
