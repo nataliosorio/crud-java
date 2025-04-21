@@ -1,7 +1,7 @@
 package com.sena.crud_hotel.controller;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,90 +19,68 @@ import com.sena.crud_hotel.DTO.CreateReservationRequest;
 import com.sena.crud_hotel.DTO.RequestInvoice;
 import com.sena.crud_hotel.DTO.RequestReservationRoom;
 import com.sena.crud_hotel.DTO.requestReservation;
+import com.sena.crud_hotel.interfaces.IReservationRoom;
+import com.sena.crud_hotel.model.Invoice;
 import com.sena.crud_hotel.model.Reservation;
+import com.sena.crud_hotel.model.ReservationRoom;
 import com.sena.crud_hotel.service.ReservationService;
 
 @RestController
 @RequestMapping("api/v1/Reservation")
 public class ReservationController {
 
-   @Autowired
+    @Autowired
     private ReservationService reservationService;
-
-
-// Obtener todas las reservas
-@GetMapping("/")
-public ResponseEntity<List<requestReservation>> getAllReservations() {
-    List<Reservation> reservations = reservationService.findAllReservations();
     
-    List<requestReservation> response = reservations.stream().map(reservation -> {
-        List<RequestReservationRoom> roomDTOs = reservation.getReservationRooms().stream()
-            .map(room -> new RequestReservationRoom(
-                room.getRoom().getId(),
-                room.getRoom().getRoomType().getName(),
-                room.getAppliedPrice()
-            ))
-            .collect(Collectors.toList());
+    @Autowired
+    private IReservationRoom reservationRoomRepository;
 
-        RequestInvoice invoiceDTO = null;
-        if (reservation.getInvoice() != null) {
-            invoiceDTO = new RequestInvoice(
-                reservation.getInvoice().getId(),
-                reservation.getId(), 
-                reservation.getInvoice().getSubtotal(),
-                reservation.getInvoice().getTax(),
-                reservation.getInvoice().getTotal(),
-                reservation.getInvoice().getPaymentStatus(),
-                reservation.getInvoice().getIssueDate()
-            );
-        }
-
-        return new requestReservation(
-            reservation.getId(),
-            reservation.getCustomer().getId(),
-            reservation.getCustomer().getFirstName() + " " + reservation.getCustomer().getLastName(),
-            reservation.getEmployee().getId(),
-            reservation.getEmployee().getFirstName() + " " + reservation.getEmployee().getLastName(),
-            reservation.getCheckInDate(),
-            reservation.getCheckOutDate(),
-            reservation.getStatus().toString(),
-            reservation.getNotes(),
-            reservation.getCreatedAt(),
-            roomDTOs,
-            invoiceDTO
-        );
-    }).collect(Collectors.toList());
-
-    return ResponseEntity.ok(response);
-}
     // Obtener todas las reservas
-    // @GetMapping("/")
-    // public ResponseEntity<List<Reservation>> getAllReservations() {
-    //     List<Reservation> reservations = reservationService.findAllReservations();
-    //     return ResponseEntity.ok(reservations);
-    // }
+    @GetMapping("/")
+    public ResponseEntity<List<requestReservation>> getAllReservations() {
+        List<Reservation> reservations = reservationService.findAllReservations();
+        List<requestReservation> dtoList = new ArrayList<>();
+        
+        for (Reservation reservation : reservations) {
+            requestReservation dto = mapToDto(reservation);
+            dtoList.add(dto);
+        }
+        
+        return ResponseEntity.ok(dtoList);
+    }
 
     // Obtener una reserva por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Reservation> getReservationById(@PathVariable int id) {
+    public ResponseEntity<requestReservation> getReservationById(@PathVariable int id) {
         Reservation reservation = reservationService.findReservationById(id);
-        return ResponseEntity.ok(reservation);
+        requestReservation dto = mapToDto(reservation);
+        return ResponseEntity.ok(dto);
     }
 
     // Crear una nueva reserva
     @PostMapping("/")
-    public ResponseEntity<Reservation> createReservation(@RequestBody CreateReservationRequest request) {
+    public ResponseEntity<requestReservation> createReservation(@RequestBody CreateReservationRequest request) {
         Reservation newReservation = reservationService.createReservation(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newReservation);
+        
+        // Obtener las habitaciones de la reservación para incluirlas en el DTO
+        List<ReservationRoom> reservationRooms = reservationRoomRepository.findByReservationId(newReservation.getId());
+        
+        requestReservation dto = mapToDto(newReservation, reservationRooms);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     // Actualizar una reserva existente
     @PutMapping("/{id}")
-    public ResponseEntity<Reservation> updateReservation(
+    public ResponseEntity<requestReservation> updateReservation(
             @PathVariable int id,
             @RequestBody CreateReservationRequest request) {
         Reservation updatedReservation = reservationService.updateReservation(id, request);
-        return ResponseEntity.ok(updatedReservation);
+        
+        // Obtener las habitaciones actualizadas
+        List<ReservationRoom> reservationRooms = reservationRoomRepository.findByReservationId(updatedReservation.getId());
+        
+        requestReservation dto = mapToDto(updatedReservation, reservationRooms);
+        return ResponseEntity.ok(dto);
     }
 
     // Eliminar una reserva
@@ -110,5 +88,56 @@ public ResponseEntity<List<requestReservation>> getAllReservations() {
     public ResponseEntity<Void> deleteReservation(@PathVariable int id) {
         reservationService.deleteReservation(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    // Método para mapear Reservation a requestReservation
+    private requestReservation mapToDto(Reservation reservation) {
+        List<ReservationRoom> reservationRooms = reservationRoomRepository.findByReservationId(reservation.getId());
+        return mapToDto(reservation, reservationRooms);
+    }
+    
+    // Método para mapear Reservation a requestReservation con habitaciones específicas
+    private requestReservation mapToDto(Reservation reservation, List<ReservationRoom> reservationRooms) {
+        requestReservation dto = new requestReservation();
+        
+        // Mapear datos básicos
+        dto.setId(reservation.getId());
+        dto.setCustomerId(reservation.getCustomer().getId());
+        dto.setCustomerFullName(reservation.getCustomer().getFirstName() + " " + reservation.getCustomer().getLastName());
+        dto.setEmployeeId(reservation.getEmployee().getId());
+        dto.setEmployeeFullName(reservation.getEmployee().getFirstName() + " " + reservation.getEmployee().getLastName());
+        dto.setNumberday(reservation.getNumberday());
+        dto.setNumberNight(reservation.getNumberNight());
+        dto.setStatus(reservation.getStatus().toString());
+        dto.setNotes(reservation.getNotes());
+        dto.setCreatedAt(reservation.getCreatedAt());
+        
+        // Mapear las habitaciones
+        List<RequestReservationRoom> roomDtos = new ArrayList<>();
+        for (ReservationRoom resRoom : reservationRooms) {
+            RequestReservationRoom roomDto = new RequestReservationRoom();
+            roomDto.setId(resRoom.getId());
+            roomDto.setRoomId(resRoom.getRoom().getId());
+            roomDto.setRoomNumber(resRoom.getRoom().getRoomNumber());
+            roomDto.setAppliedPrice(resRoom.getAppliedPrice());
+            roomDtos.add(roomDto);
+        }
+        dto.setRooms(roomDtos);
+        
+        // Mapear la factura
+        Invoice invoice = reservation.getInvoice();
+        if (invoice != null) {
+            RequestInvoice invoiceDto = new RequestInvoice();
+            invoiceDto.setId(invoice.getId());
+            invoiceDto.setReservationId(reservation.getId());
+            invoiceDto.setSubtotal(invoice.getSubtotal());
+            invoiceDto.setTax(invoice.getTax());
+            invoiceDto.setTotal(invoice.getTotal());
+            invoiceDto.setPaymentStatus(invoice.getPaymentStatus());
+            invoiceDto.setIssueDate(invoice.getIssueDate());
+            dto.setInvoice(invoiceDto);
+        }
+        
+        return dto;
     }
 }

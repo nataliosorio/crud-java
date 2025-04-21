@@ -1,0 +1,22 @@
+json:
+Customer: 
+
+{
+  "firstName": "Juan",
+  "lastName": "Pérez",
+  "idDocumentType": 1,
+  "documentNumber": "12345678",
+  "phone": "+5491112345678",
+  "email": "juan.perez@example.com"
+}
+
+
+reservas: 
+{
+  "customerId": 1,
+  "employeeId": 3,
+  "checkInDate": "2025-04-25T14:00:00",
+  "checkOutDate": "2025-04-27T12:00:00",
+  "notes": "Reserva para cliente frecuente",
+  "roomIds": [5, 7]
+}

@@ -1,6 +1,7 @@
 package com.sena.crud_hotel.controller;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sena.crud_hotel.DTO.RequestInvoice;
 import com.sena.crud_hotel.model.Invoice;
 import com.sena.crud_hotel.service.InvoiceService;
 
@@ -22,11 +24,10 @@ public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
 
-    // Obtener todas las facturas
     @GetMapping("/")
-    public ResponseEntity<Iterable<Invoice>> getAllInvoices() {
-        Iterable<Invoice> invoices = invoiceService.findAllInvoices();
-        return ResponseEntity.ok(invoices);
+    public ResponseEntity<List<RequestInvoice>> getAllInvoices() {
+        List<RequestInvoice> invoiceDTOs = invoiceService.getAllInvoices();
+        return ResponseEntity.ok(invoiceDTOs);
     }
 
     // Obtener una factura por ID

@@ -42,8 +42,7 @@ public class Invoice {
     @Column(name = "issue_date", nullable = false)
     private LocalDateTime issueDate;
 
-    // @Column(name = "payment_method", length = 30)
-    // private String paymentMethod;
+
 
     public Invoice() {
     }
@@ -88,9 +87,7 @@ public class Invoice {
         this.issueDate = issueDate;
     }
 
-    // public void setPaymentMethod(String paymentMethod) {
-    //     this.paymentMethod = paymentMethod;
-    // }
+    
 
     public int getId() {
         return id;
@@ -120,9 +117,7 @@ public class Invoice {
         return issueDate;
     }
 
-    // public String getPaymentMethod() {
-    //     return paymentMethod;
-    // }
+  
 
     
 

@@ -36,11 +36,18 @@ public class Reservation {
     @JoinColumn(name = "id_employee", nullable = false)
     private Employee employee;
 
-    @Column(name = "check_in_date", nullable = false)
-    private LocalDateTime checkInDate;
+    // @Column(name = "check_in_date", nullable = false)
+    // private LocalDateTime checkInDate;
 
-    @Column(name = "check_out_date", nullable = false)
-    private LocalDateTime checkOutDate;
+    @Column(name = "numberday")
+    private int numberday;
+
+    @Column(name = "numberNight")
+    private int numberNight;
+
+    
+    // @Column(name = "check_out_date", nullable = false)
+    // private LocalDateTime checkOutDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
@@ -61,14 +68,14 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(int id, Customer customer, Employee employee, LocalDateTime checkInDate,
-            LocalDateTime checkOutDate, EnumReservation status, String notes, LocalDateTime createdAt,
+    public Reservation(int id, Customer customer, Employee employee, int numberday, int numberNight,
+            EnumReservation status, String notes, LocalDateTime createdAt,
             List<ReservationRoom> reservationRooms, Invoice invoice) {
         this.id = id;
         this.customer = customer;
         this.employee = employee;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
+        this.numberday = numberday;
+        this.numberNight = numberNight;
         this.status = status;
         this.notes = notes;
         this.createdAt = createdAt;
@@ -88,12 +95,14 @@ public class Reservation {
         this.employee = employee;
     }
 
-    public void setCheckInDate(LocalDateTime checkInDate) {
-        this.checkInDate = checkInDate;
+   
+
+    public void setNumberday(int numberday) {
+        this.numberday = numberday;
     }
 
-    public void setCheckOutDate(LocalDateTime checkOutDate) {
-        this.checkOutDate = checkOutDate;
+    public void setNumberNight(int numberNight) {
+        this.numberNight = numberNight;
     }
 
     public void setStatus(EnumReservation status) {
@@ -128,12 +137,12 @@ public class Reservation {
         return employee;
     }
 
-    public LocalDateTime getCheckInDate() {
-        return checkInDate;
+    public int getNumberday() {
+        return numberday;
     }
 
-    public LocalDateTime getCheckOutDate() {
-        return checkOutDate;
+    public int getNumberNight() {
+        return numberNight;
     }
 
     public EnumReservation getStatus() {

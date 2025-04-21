@@ -1,0 +1,55 @@
+<div class="city-container">
+    <h2>Lista de Reservaciones</h2>
+    <table class="city-table">
+      <thead>
+        <tr>
+          <!-- <th>#</th> -->
+          <th>Usuario</th>
+          <th>Employee</th>
+          <th>Numero de dias</th>
+          <th>Numero de noches</th>
+          <th>Estado</th>
+          <th>Notas</th>
+
+          <th>Fecha</th>
+          <th>Habitaciones</th>
+          <th>Factura/th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let city of typeRoom; index as i">
+          <!-- <td>{{ i + 1 }}</td> -->
+          <td>{{ city.customerFullName }}</td>
+          <td>{{ city.employeeFullName }}</td>
+          <td>{{ city.numberday}}</td>
+          <td>{{ city.numberNight}}</td>
+          <td>{{ city.status}}</td>
+          <td>{{ city.notes}}</td>
+          <td>{{ city.createdAt}}</td>
+          <td>
+            <ul>
+              <li *ngFor="let room of city.rooms">
+                {{ room.roomNumber }} - ${{ room.appliedPrice }}
+              </li>
+            </ul>
+          </td>
+          <!-- <td>{{ city.rooms}}</td>
+          <td>{{ city.invoice}}</td> -->
+
+          <td>
+            Subtotal: {{ city.invoice.subtotal }} <br>
+            Impuestos: {{ city.invoice.tax }} <br>
+            Total: {{ city.invoice.total }} <br>
+            Estado: {{ city.invoice.paymentStatus }} <br>
+            Fecha: {{ city.invoice.issueDate | date:'short' }}
+          </td>
+
+
+
+        </tr>
+      </tbody>
+    </table>
+</div>
+

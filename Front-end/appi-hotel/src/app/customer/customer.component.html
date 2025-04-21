@@ -1,0 +1,32 @@
+<div class="city-container">
+    <h2>Lista de Usuarios</h2>
+    <table class="city-table">
+      <thead>
+        <tr>
+          <!-- <th>#</th> -->
+          <th>firstName</th>
+          <th>lastName</th>
+          <th>documentTypeName</th>
+          <th>documentNumber</th>
+          <th>email</th>
+          <th>phone</th>
+
+          
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let city of typeRoom; index as i">
+          <!-- <td>{{ i + 1 }}</td> -->
+          <td>{{ city.firstName }}</td>
+          <td>{{ city.lastName }}</td>
+          <td>{{ city.documentName}}</td>
+          <td>{{ city.documentNumber}}</td>
+          <td>{{ city.email}}</td>
+          <td>{{ city.phone}}</td>
+
+
+        </tr>
+      </tbody>
+    </table>
+</div>

@@ -1,6 +1,5 @@
 package com.sena.crud_hotel.DTO;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +7,8 @@ public class CreateReservationRequest {
 
     private int customerId;
     private int employeeId;
-    private LocalDateTime checkInDate;
-    private LocalDateTime checkOutDate;
+    private int numberday;
+    private int numberNight;
 
     private String notes;
     private List<Integer> roomIds = new ArrayList<>(); // Solo los IDs, luego tú cargas los Room y calculas precios
@@ -17,12 +16,12 @@ public class CreateReservationRequest {
     public CreateReservationRequest() {
     }
 
-    public CreateReservationRequest(int customerId, int employeeId, LocalDateTime checkInDate, LocalDateTime checkOutDate, String notes,
+    public CreateReservationRequest(int customerId, int employeeId, int numberday, int numberNight, String notes,
             List<Integer> roomIds) {
         this.employeeId = employeeId;
         this.customerId = customerId;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
+        this.numberday = numberday;
+        this.numberNight = numberNight;
         this.notes = notes;
         this.roomIds = roomIds;
     }
@@ -31,12 +30,14 @@ public class CreateReservationRequest {
         this.customerId = customerId;
     }
 
-    public void setCheckInDate(LocalDateTime checkInDate) {
-        this.checkInDate = checkInDate;
+   
+
+    public void setNumberday(int numberday) {
+        this.numberday = numberday;
     }
 
-    public void setCheckOutDate(LocalDateTime checkOutDate) {
-        this.checkOutDate = checkOutDate;
+    public void setNumberNight(int numberNight) {
+        this.numberNight = numberNight;
     }
 
     public void setNotes(String notes) {
@@ -51,12 +52,14 @@ public class CreateReservationRequest {
         return customerId;
     }
 
-    public LocalDateTime getCheckInDate() {
-        return checkInDate;
+  
+
+    public int getNumberday() {
+        return numberday;
     }
 
-    public LocalDateTime getCheckOutDate() {
-        return checkOutDate;
+    public int getNumberNight() {
+        return numberNight;
     }
 
     public String getNotes() {

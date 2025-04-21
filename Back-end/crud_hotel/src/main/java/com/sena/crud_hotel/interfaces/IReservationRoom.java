@@ -1,13 +1,14 @@
 package com.sena.crud_hotel.interfaces;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.sena.crud_hotel.model.ReservationRoom;
+import com.sena.crud_hotel.model.Room;
 
 public interface IReservationRoom extends JpaRepository<ReservationRoom,Integer>{
 
@@ -30,13 +31,23 @@ public interface IReservationRoom extends JpaRepository<ReservationRoom,Integer>
     // List<ReservationRoom> findOccupiedRoomsOnDate(@Param("date") LocalDateTime date);
 
     // Para validar solapamientos de fechas
-@Query("SELECT rr FROM ReservationRoom rr " +
-"WHERE rr.room.id = :roomId " +
-"AND rr.reservation.checkInDate < :checkOut " +
-"AND rr.reservation.checkOutDate > :checkIn")
-List<ReservationRoom> findConflictingReservations(@Param("roomId") int roomId,
-                                           @Param("checkIn") LocalDateTime checkIn,
-                                           @Param("checkOut") LocalDateTime checkOut);
+    
+// @Query("SELECT rr FROM ReservationRoom rr " +
+// "WHERE rr.room.id = :roomId " +
+// "AND rr.reservation.checkInDate < :checkOut " +
+// "AND rr.reservation.checkOutDate > :checkIn")
+// List<ReservationRoom> findConflictingReservations(@Param("roomId") int roomId,
+//                                            @Param("checkIn") LocalDateTime checkIn,
+//                                            @Param("checkOut") LocalDateTime checkOut);
 
 List<ReservationRoom> findByReservationId(int reservationId);
+@Modifying
+@Query("DELETE FROM ReservationRoom rr WHERE rr.reservation.id = :reservationId")
+void deleteByReservationId(@Param("reservationId") Integer reservationId);
+
+@Query("SELECT rr.room FROM ReservationRoom rr WHERE rr.reservation.id = :reservationId")
+List<Room> findRoomsByReservationId(@Param("reservationId") Integer reservationId);
+
+
+
 }

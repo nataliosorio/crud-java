@@ -5,6 +5,7 @@ import java.util.List;
 
 
 
+
 public class requestReservation {
 
     
@@ -18,8 +19,8 @@ public class requestReservation {
     private int employeeId;
     private String employeeFullName;
 
-    private LocalDateTime checkInDate;
-    private LocalDateTime checkOutDate;
+    private int numberday;
+    private int numberNight;
 
     private String status;
     private String notes;
@@ -38,8 +39,8 @@ public class requestReservation {
         String customerFullName,
         int employeeId,
         String employeeFullName,
-        LocalDateTime checkInDate,
-        LocalDateTime checkOutDate,
+        int numberday,
+        int numberNight,
         String status,
         String notes,
         LocalDateTime createdAt,
@@ -50,8 +51,8 @@ public class requestReservation {
             this.customerFullName = customerFullName;
             this.employeeId = employeeId;
             this.employeeFullName = employeeFullName;
-            this.checkInDate = checkInDate;
-            this.checkOutDate = checkOutDate;
+            this.numberday = numberday;
+            this.numberNight = numberNight;
             this.status = status;
             this.notes = notes;
             this.createdAt = createdAt;
@@ -101,20 +102,22 @@ public class requestReservation {
         this.employeeFullName = employeeFullName;
     }
 
-    public LocalDateTime getCheckInDate() {
-        return checkInDate;
+    
+   
+    public int getNumberday() {
+        return numberday;
     }
 
-    public void setCheckInDate(LocalDateTime checkInDate) {
-        this.checkInDate = checkInDate;
+    public int getNumberNight() {
+        return numberNight;
     }
 
-    public LocalDateTime getCheckOutDate() {
-        return checkOutDate;
+    public void setNumberday(int numberday) {
+        this.numberday = numberday;
     }
 
-    public void setCheckOutDate(LocalDateTime checkOutDate) {
-        this.checkOutDate = checkOutDate;
+    public void setNumberNight(int numberNight) {
+        this.numberNight = numberNight;
     }
 
     public String getStatus() {

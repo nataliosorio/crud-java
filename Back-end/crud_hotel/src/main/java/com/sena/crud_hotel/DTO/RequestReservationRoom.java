@@ -11,7 +11,7 @@ public class RequestReservationRoom {
     private BigDecimal appliedPrice; // Precio calculado (por día o noche)
 
 
-    public RequestReservationRoom(int i, String string, BigDecimal bigDecimal) {
+    public RequestReservationRoom() {
     }
 
     public RequestReservationRoom(int id, int roomId, String roomNumber, BigDecimal appliedPrice) {

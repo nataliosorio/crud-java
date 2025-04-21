@@ -51,11 +51,7 @@ public class DocumentTypeController {
        return "Register actualizado correctamente";
     }
 
-    //  @PutMapping("/{id}")
-    // public requestRoom updateRoom(@PathVariable int id, @RequestBody requestRoom dto) {
-    //     return cityService.update(id, dto);
-    // }
-  
+ 
 
      @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable int id){

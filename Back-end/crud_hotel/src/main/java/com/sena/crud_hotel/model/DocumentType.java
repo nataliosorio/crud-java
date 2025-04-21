@@ -43,10 +43,7 @@ public class DocumentType {
         this.name = name;
     }
 
-    // public void setEmployees(List<Employee> employees) {
-    //     this.employees = employees;
-    // }
-
+   
     public int getId() {
         return id;
     }
@@ -55,9 +52,7 @@ public class DocumentType {
         return name;
     }
 
-    // public List<Employee> getEmployees() {
-    //     return employees;
-    // }
+  
     
     
 }

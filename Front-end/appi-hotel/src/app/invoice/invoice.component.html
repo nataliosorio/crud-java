@@ -1,0 +1,27 @@
+<div class="city-container">
+    <h2>Lista de Facturas</h2>
+    <table class="city-table">
+      <thead>
+        <tr>
+          <!-- <th>#</th> -->
+          <th>ID-Reserva</th>
+          <th>Subtotal</th>
+          <th>Impuesto</th>
+          <th>Total</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let city of typeRoom; index as i">
+          <!-- <td>{{ i + 1 }}</td> -->
+          <td>{{ city.reservationId }}</td>
+          <td>{{ city.subtotal }}</td>
+          <td>{{ city.tax}}</td>
+          <td>{{ city.total}}</td>
+          <td>{{ city.paymentStatus}}</td>
+          <td>{{ city.issueDate}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

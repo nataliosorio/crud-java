@@ -1,0 +1,27 @@
+.city-container {
+    margin-left: 250px; /* para dejar espacio del menú lateral */
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .city-table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 60%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .city-table th,
+  .city-table td {
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+  }
+  
+  .city-table thead {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .city-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }

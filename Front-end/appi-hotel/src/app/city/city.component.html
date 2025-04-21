@@ -1,0 +1,34 @@
+
+
+<!-- <h2>Lista de Ciudades</h2>
+<ul>
+  <li *ngFor="let city of cities">
+    {{ city.id }} - {{ city.name }}
+  </li>
+</ul> -->
+
+<!-- <h2>Lista de ciudades</h2>
+<ul>
+  <li *ngFor="let city of cities">
+    {{ city.name }}
+  </li>
+</ul> -->
+
+
+<div class="city-container">
+    <h2>Lista de Ciudades</h2>
+    <table class="city-table">
+      <thead>
+        <tr>
+          <!-- <th>#</th> -->
+          <th>Nombre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let city of cities; index as i">
+          <!-- <td>{{ i + 1 }}</td> -->
+          <td>{{ city.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

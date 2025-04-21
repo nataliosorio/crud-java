@@ -1,0 +1,29 @@
+<div class="city-container">
+    <h2>Lista de Habitaciones</h2>
+    <table class="city-table">
+      <thead>
+        <tr>
+          <!-- <th>#</th> -->
+          <th>Número de habitación</th>
+          <th>Nombre</th>
+          <th>Estado</th>
+          <th>Hotel</th>
+          <th>Tipo de habitación</th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let city of typeRoom; index as i">
+          <!-- <td>{{ i + 1 }}</td> -->
+          <td>{{ city.roomNumber }}</td>
+          <td>{{ city.roomTypeName}}</td>
+          <td>{{ city.status}}</td>
+          <td>{{ city.hotelName}}</td>
+          <td>{{ city.roomTypeName}}</td>
+
+
+        </tr>
+      </tbody>
+    </table>
+</div>

@@ -1,0 +1,35 @@
+<div class="city-container">
+    <h2>Lista de Empleados</h2>
+    <table class="city-table">
+      <thead>
+        <tr>
+          <!-- <th>#</th> -->
+          <th>firstName</th>
+          <th>lastName</th>
+          <th>documentTypeName</th>
+          <th>documentNumber</th>
+          <th>email</th>
+          <th>phone</th>
+          <th>rolName</th>
+          <th>hotelName</th>
+          
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let city of typeRoom; index as i">
+          <!-- <td>{{ i + 1 }}</td> -->
+          <td>{{ city.firstName }}</td>
+          <td>{{ city.lastName }}</td>
+          <td>{{ city.documentTypeName}}</td>
+          <td>{{ city.documentNumber}}</td>
+          <td>{{ city.email}}</td>
+          <td>{{ city.phone}}</td>
+          <td>{{ city.rolName}}</td>
+          <td>{{ city.hotelName}}</td>
+
+        </tr>
+      </tbody>
+    </table>
+</div>
+

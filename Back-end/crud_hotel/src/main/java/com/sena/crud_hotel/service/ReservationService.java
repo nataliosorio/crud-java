@@ -16,6 +16,7 @@ import com.sena.crud_hotel.interfaces.IRoom;
 import com.sena.crud_hotel.model.Customer;
 import com.sena.crud_hotel.model.Employee;
 import com.sena.crud_hotel.model.EnumReservation;
+import com.sena.crud_hotel.model.Invoice;
 import com.sena.crud_hotel.model.Reservation;
 import com.sena.crud_hotel.model.ReservationRoom;
 import com.sena.crud_hotel.model.Room;
@@ -56,14 +57,16 @@ public class ReservationService {
         Reservation reservation = new Reservation();
         reservation.setCustomer(customer);
         reservation.setEmployee(employee);
-        reservation.setCheckInDate(dto.getCheckInDate());
-        reservation.setCheckOutDate(dto.getCheckOutDate());
+        reservation.setNumberday(dto.getNumberday());
+        reservation.setNumberNight(dto.getNumberNight());
+        // reservation.setCheckInDate(dto.getCheckInDate());
+        // reservation.setCheckOutDate(dto.getCheckOutDate());
         reservation.setStatus(EnumReservation.PENDING); // Por defecto, el estado es pendiente
         reservation.setNotes(dto.getNotes());
         reservation.setCreatedAt(LocalDateTime.now());
 
         reservation = reservationRepository.save(reservation);
-
+    
         // 3. Asociar habitaciones y calcular precios
         BigDecimal subtotal = BigDecimal.ZERO;
         for (Integer roomId : dto.getRoomIds()) {
@@ -75,15 +78,26 @@ public class ReservationService {
             reservationRoom.setRoom(room);
 
             // Precio aplicado puede ser por noche, por ejemplo:
-            BigDecimal appliedPrice = room.getRoomType().getPriceNight(); // o getPriceDay()
+
+            BigDecimal priceDay = room.getRoomType().getPriceDay();
+            BigDecimal priceNight = room.getRoomType().getPriceNight();
+
+             // Calcular precio aplicado: (días * precio_día) + (noches * precio_noche)
+            BigDecimal appliedPrice = priceDay.multiply(BigDecimal.valueOf(dto.getNumberday()))
+            .add(priceNight.multiply(BigDecimal.valueOf(dto.getNumberNight())));
+
             reservationRoom.setAppliedPrice(appliedPrice);
 
             reservationRoomRepository.save(reservationRoom);
             subtotal = subtotal.add(appliedPrice);
+           
         }
 
         // 4. Generar factura usando el servicio especializado
-        invoiceService.generateInvoice(reservation, subtotal);
+        // invoiceService.generateInvoice(reservation, subtotal);
+         Invoice invoice = invoiceService.generateInvoice(reservation, subtotal);
+
+        reservation.setInvoice(invoice);
 
         return reservation;
     }
@@ -109,13 +123,15 @@ public class ReservationService {
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
 
         // 2. Actualizar los valores de la reserva
-        reservation.setCheckInDate(dto.getCheckInDate());
-        reservation.setCheckOutDate(dto.getCheckOutDate());
+        reservation.setNumberday(dto.getNumberday());
+        reservation.setNumberNight(dto.getNumberNight());
+
         reservation.setNotes(dto.getNotes());
 
         // 3. Actualizar habitaciones asociadas si se pasan nuevos IDs
         if (dto.getRoomIds() != null && !dto.getRoomIds().isEmpty()) {
-            reservationRoomRepository.deleteById(id); // Eliminar habitaciones antiguas
+            reservationRoomRepository.deleteByReservationId(id);
+            // reservationRoomRepository.deleteById(id); // Eliminar habitaciones antiguas
 
             BigDecimal subtotal = BigDecimal.ZERO;
             for (Integer roomId : dto.getRoomIds()) {
@@ -127,15 +143,23 @@ public class ReservationService {
                 reservationRoom.setRoom(room);
 
                 // Precio aplicado puede ser por noche, por ejemplo:
-                BigDecimal appliedPrice = room.getRoomType().getPriceNight(); // o getPriceDay()
+                BigDecimal priceDay = room.getRoomType().getPriceDay();
+                BigDecimal priceNight = room.getRoomType().getPriceNight();
+    
+                 // Calcular precio aplicado: (días * precio_día) + (noches * precio_noche)
+                BigDecimal appliedPrice = priceDay.multiply(BigDecimal.valueOf(dto.getNumberday()))
+                .add(priceNight.multiply(BigDecimal.valueOf(dto.getNumberNight())));
+    
                 reservationRoom.setAppliedPrice(appliedPrice);
-
+    
                 reservationRoomRepository.save(reservationRoom);
                 subtotal = subtotal.add(appliedPrice);
             }
 
             // 4. Generar nueva factura con los nuevos valores
-            invoiceService.generateInvoice(reservation, subtotal);
+            Invoice invoice = invoiceService.generateInvoice(reservation, subtotal);
+
+            reservation.setInvoice(invoice);
         }
 
         return reservationRepository.save(reservation);
