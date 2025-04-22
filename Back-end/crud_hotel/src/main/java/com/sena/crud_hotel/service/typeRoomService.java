@@ -39,14 +39,26 @@ public class typeRoomService {
         );
     }
 
-    public void update(requestTypeRoom typeRoomUpdate) {
-        var TypeRoom = finByIdTypeRooms(typeRoomUpdate.getId());
-        if (TypeRoom.isPresent()) {
-            TypeRoom.get().setName(typeRoomUpdate.getName());
-            TypeRoom.get().setPriceDay(typeRoomUpdate.getPriceDay());
-            TypeRoom.get().setPriceNight(typeRoomUpdate.getPriceNight());
-            typeRoomData.save(TypeRoom.get());
-        }
+
+     public requestTypeRoom update(int id, requestTypeRoom typeRoomUpdate) {
+        typeRoom room = typeRoomData.findById(id)
+            .orElseThrow(() -> new RuntimeException("Tipo de habitacion no encontrada con ID: " + id));
+
+        room.setName(typeRoomUpdate.getName());
+        room.setPriceDay(typeRoomUpdate.getPriceDay());
+        room.setPriceNight(typeRoomUpdate.getPriceNight());
+
+        typeRoom updatedRoom = typeRoomData.save(room);
+
+        requestTypeRoom updatedDto = new requestTypeRoom();
+        updatedDto.setId(updatedRoom.getId());
+        updatedDto.setName(updatedRoom.getName());
+        updatedDto.setPriceDay(updatedRoom.getPriceDay());
+        updatedDto.setPriceNight(updatedRoom.getPriceNight());
+
+
+        return updatedDto;
+
     }
 
     public responseDTO delete(int id) {

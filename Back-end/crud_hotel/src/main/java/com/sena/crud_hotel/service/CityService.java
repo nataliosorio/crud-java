@@ -37,13 +37,23 @@ public class CityService {
         );
     }
 
-    public void update(requestCity typeRoomUpdate) {
-        var TypeRoom = finByIdTypeRooms(typeRoomUpdate.getId());
-        if (TypeRoom.isPresent()) {
-            TypeRoom.get().setName(typeRoomUpdate.getName());
-            cityData.save(TypeRoom.get());
-        }
+    public requestCity update(int id, requestCity typeRoomUpdate) {
+        City room = cityData.findById(id)
+            .orElseThrow(() -> new RuntimeException("Ciudad no encontrada con ID: " + id));
+
+        room.setName(typeRoomUpdate.getName());
+
+        City updatedRoom = cityData.save(room);
+
+        requestCity updatedDto = new requestCity();
+        updatedDto.setId(updatedRoom.getId());
+        updatedDto.setName(updatedRoom.getName());
+
+        return updatedDto;
+
     }
+
+   
 
     public responseDTO delete(int id) {
         var typeRoom = finByIdTypeRooms(id);

@@ -49,9 +49,15 @@ public class typeRoomController {
     }
 
 
-    @PutMapping("/")
-    public String update(@RequestBody requestTypeRoom typeRoom){
-        typeRoomService.update(typeRoom);
+    // @PutMapping("/")
+    // public String update(@RequestBody requestTypeRoom typeRoom){
+    //     typeRoomService.update(typeRoom);
+    //    return "Register actualizado correctamente";
+    // }
+
+     @PutMapping("/{id}")
+    public String update(@PathVariable int id, @RequestBody requestTypeRoom typeRoom){
+        typeRoomService.update(id,typeRoom);
        return "Register actualizado correctamente";
     }
 

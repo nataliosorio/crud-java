@@ -35,8 +35,8 @@ public class Hotel {
     @Column(name = "email", length = 100, nullable = false)
     private String email;
 
-    @Column(name = "stars", nullable = false)
-    private int stars;
+    // @Column(name = "stars", nullable = false)
+    // private int stars;
 
     // Relación con City (Un hotel pertenece a una ciudad)
     @ManyToOne
@@ -53,13 +53,13 @@ public class Hotel {
     public Hotel() {
     }
 
-    public Hotel(int id, String name, String address, String phone, String email, int stars, City city) {
+    public Hotel(int id, String name, String address, String phone, String email, City city) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.email = email;
-        this.stars = stars;
+        // this.stars = stars;
         this.city = city;
         // this.rooms = rooms;
     }
@@ -84,9 +84,9 @@ public class Hotel {
         this.email = email;
     }
 
-    public void setStars(int stars) {
-        this.stars = stars;
-    }
+    // public void setStars(int stars) {
+    //     this.stars = stars;
+    // }
 
     // public void setRooms(List<Room> rooms) {
     //     this.rooms = rooms;
@@ -112,9 +112,9 @@ public class Hotel {
         return email;
     }
 
-    public int getStars() {
-        return stars;
-    }
+    // public int getStars() {
+    //     return stars;
+    // }
 
     // public List<Room> getRooms() {
     //     return rooms;

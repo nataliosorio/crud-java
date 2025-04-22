@@ -1,32 +1,105 @@
 <div class="city-container">
-    <h2>Lista de Usuarios</h2>
-    <table class="city-table">
-      <thead>
-        <tr>
-          <!-- <th>#</th> -->
-          <th>firstName</th>
-          <th>lastName</th>
-          <th>documentTypeName</th>
-          <th>documentNumber</th>
-          <th>email</th>
-          <th>phone</th>
+  <h2>Lista de Clientes</h2>
 
-          
+  <!-- Botones -->
+  <button (click)="toggleForm()" class="btn-toggle" [disabled]="isLoading">
+    {{ showForm ? 'Cancelar' : 'Crear Cliente' }}
+  </button>
+  <button (click)="refrescar()" class="btn-action">Refrescar</button>
 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let city of typeRoom; index as i">
-          <!-- <td>{{ i + 1 }}</td> -->
-          <td>{{ city.firstName }}</td>
-          <td>{{ city.lastName }}</td>
-          <td>{{ city.documentName}}</td>
-          <td>{{ city.documentNumber}}</td>
-          <td>{{ city.email}}</td>
-          <td>{{ city.phone}}</td>
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator">Cargando...</div>
+
+  <!-- Formulario para crear o editar cliente -->
+  <div *ngIf="showForm" class="customer-form">
+    <form [formGroup]="customerForm" (ngSubmit)="editIndex === null ? submitForm() : updateHotel()">
+      
+      <label for="firstName">Nombre:</label>
+      <input
+        id="firstName"
+        type="text"
+        formControlName="firstName"
+        placeholder="Nombre del cliente"
+        class="form-input"
+      />
+
+      <label for="lastName">Apellido:</label>
+      <input
+        id="lastName"
+        type="text"
+        formControlName="lastName"
+        placeholder="Apellido del cliente"
+        class="form-input"
+      />
+
+      <label for="idDocumentType">Tipo de documento:</label>
+      <select id="idDocumentType" formControlName="idDocumentType" class="form-input">
+        <option [ngValue]="null" disabled selected>Seleccione una ciudad</option>
+        <option *ngFor="let doc of typeDocument" [value]="doc.id">{{ doc.name }}</option>
+      </select>
+
+     
 
 
-        </tr>
-      </tbody>
-    </table>
+      <label for="documentNumber">Número de documento:</label>
+      <input
+        id="documentNumber"
+        type="text"
+        formControlName="documentNumber"
+        placeholder="Número de documento"
+        class="form-input"
+      />
+
+      <label for="phone">Teléfono:</label>
+      <input
+        id="phone"
+        type="text"
+        formControlName="phone"
+        placeholder="Teléfono"
+        class="form-input"
+      />
+
+      <label for="email">Correo electrónico:</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        placeholder="ejemplo@correo.com"
+        class="form-input"
+      />
+
+      <button type="submit" class="btn-submit" [disabled]="customerForm.invalid || isLoading">
+        {{ editIndex === null ? 'Crear' : 'Actualizar' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla de clientes -->
+  <table class="city-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Tipo Doc</th>
+        <th>Número Doc</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers; let i = index">
+        <td>{{ customer.firstName }}</td>
+        <td>{{ customer.lastName }}</td>
+        <td>{{ customer.documentName }}</td>
+        <td>{{ customer.documentNumber }}</td>
+        <td>{{ customer.phone }}</td>
+        <td>{{ customer.email }}</td>
+        <td>
+          <button (click)="editHotel(i)" class="btn-action" [disabled]="isLoading">Editar</button>
+          <button (click)="deleteHotel(customer.id)" class="btn-delete" [disabled]="isLoading">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

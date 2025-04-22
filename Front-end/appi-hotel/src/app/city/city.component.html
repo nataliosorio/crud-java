@@ -1,34 +1,59 @@
 
 
-<!-- <h2>Lista de Ciudades</h2>
-<ul>
-  <li *ngFor="let city of cities">
-    {{ city.id }} - {{ city.name }}
-  </li>
-</ul> -->
-
-<!-- <h2>Lista de ciudades</h2>
-<ul>
-  <li *ngFor="let city of cities">
-    {{ city.name }}
-  </li>
-</ul> -->
-
-
 <div class="city-container">
-    <h2>Lista de Ciudades</h2>
-    <table class="city-table">
-      <thead>
-        <tr>
-          <!-- <th>#</th> -->
-          <th>Nombre</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let city of cities; index as i">
-          <!-- <td>{{ i + 1 }}</td> -->
-          <td>{{ city.name }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Lista de Ciudades</h2>
+
+  <!-- Botón para mostrar/ocultar el formulario -->
+  <button (click)="toggleForm()" class="btn-toggle" [disabled]="isLoading">
+    {{ showForm ? 'Cancelar' : 'Crear Ciudad' }}
+  </button>
+  <button (click)="refrescar()" class="btn-action">refrescar</button>
+
+
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator">
+    Cargando...
+  </div>
+
+  <!-- Formulario para crear o editar -->
+  <div *ngIf="showForm" class="city-form">
+    <form [formGroup]="cityForm" (ngSubmit)="editIndex === null ? submitForm() : updateCity()">
+      <label for="name">Nombre:</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Nombre de la ciudad"
+        class="form-input"
+      />
+
+      <button type="submit" [disabled]="cityForm.invalid || isLoading" class="btn-submit">
+        {{ editIndex === null ? 'Guardar' : 'Actualizar' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla de ciudades -->
+  <table class="city-table" *ngIf="cities.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let city of cities; index as i; trackBy: trackByCityId">
+        <td>{{ city.name }}</td>
+        <td>
+          <button (click)="editCity(i)" class="btn-action" [disabled]="isLoading">Editar</button>
+          <button (click)="deleteCity(city.id)" class="btn-delete" [disabled]="isLoading">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Mensaje cuando no hay ciudades -->
+  <div *ngIf="!isLoading && cities.length === 0" class="no-cities">
+    No hay ciudades registradas. ¡Crea una!
+  </div>
 </div>

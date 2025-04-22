@@ -13,7 +13,7 @@ public interface IHotel extends JpaRepository<Hotel, Integer>{
 
 
 @Query("SELECT new com.sena.crud_hotel.DTO.requestHotel(" +
-       "h.id, h.name, h.address, h.phone, h.email, h.stars, c.id, c.name) " +
+       "h.id, h.name, h.address, h.phone, h.email, c.id, c.name) " +
        "FROM Hotel h " +
        "JOIN h.city c")
 List<requestHotel> findAllHotelsWithCity();

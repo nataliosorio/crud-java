@@ -1,35 +1,98 @@
 <div class="city-container">
-    <h2>Lista de Empleados</h2>
-    <table class="city-table">
-      <thead>
-        <tr>
-          <!-- <th>#</th> -->
-          <th>firstName</th>
-          <th>lastName</th>
-          <th>documentTypeName</th>
-          <th>documentNumber</th>
-          <th>email</th>
-          <th>phone</th>
-          <th>rolName</th>
-          <th>hotelName</th>
-          
+  <h2>Lista de Empleados</h2>
 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let city of typeRoom; index as i">
-          <!-- <td>{{ i + 1 }}</td> -->
-          <td>{{ city.firstName }}</td>
-          <td>{{ city.lastName }}</td>
-          <td>{{ city.documentTypeName}}</td>
-          <td>{{ city.documentNumber}}</td>
-          <td>{{ city.email}}</td>
-          <td>{{ city.phone}}</td>
-          <td>{{ city.rolName}}</td>
-          <td>{{ city.hotelName}}</td>
+  <!-- Botones -->
+  <button (click)="toggleForm()" class="btn-toggle" [disabled]="isLoading">
+    {{ showForm ? 'Cancelar' : 'Crear Empleado' }}
+  </button>
+  <button (click)="refrescar()" class="btn-action">Refrescar</button>
 
-        </tr>
-      </tbody>
-    </table>
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator">Cargando...</div>
+
+  <!-- Formulario para crear o editar empleado -->
+  <div *ngIf="showForm" class="employee-form">
+    <form [formGroup]="employeeForm" (ngSubmit)="editIndex === null ? submitForm() : updateEmployee()">
+      
+      <label for="firstName">Nombre:</label>
+      <input id="firstName" type="text" formControlName="firstName" class="form-input" placeholder="Nombre">
+
+      <label for="lastName">Apellido:</label>
+      <input id="lastName" type="text" formControlName="lastName" class="form-input" placeholder="Apellido">
+
+      <!-- Tipo de documento -->
+      <label for="idDocumentType">Tipo de Documento:</label>
+      <select id="idDocumentType" formControlName="idDocumentType" class="form-input">
+        <option *ngFor="let type of documentTypes" [value]="type.id">
+          {{ type.name }}
+        </option>
+      </select>
+
+      <label for="documentNumber">Número de Documento:</label>
+      <input id="documentNumber" type="text" formControlName="documentNumber" class="form-input" placeholder="12345678">
+
+      <label for="email">Correo:</label>
+      <input id="email" type="email" formControlName="email" class="form-input" placeholder="ejemplo@correo.com">
+
+      <label for="phone">Teléfono:</label>
+      <input id="phone" type="text" formControlName="phone" class="form-input" placeholder="Teléfono">
+
+      <!-- Rol -->
+      <label for="idRole">Rol:</label>
+      <select id="idRole" formControlName="idRole" class="form-input">
+        <option [ngValue]="null" disabled selected>Seleccione un Rol</option>
+        <option *ngFor="let role of roles" [value]="role.id">
+          {{ role.name }}
+        </option>
+      </select>
+
+      <!-- Hotel -->
+      <label for="idHotel">Hotel:</label>
+      <select id="idHotel" formControlName="idHotel" class="form-input">
+        <option [ngValue]="null" disabled selected>Seleccione un Hotel</option>
+        <option *ngFor="let hotel of hotels" [value]="hotel.id">
+          {{ hotel.name }}
+        </option>
+      </select>
+
+
+      <!-- Botón de enviar -->
+      <button type="submit" class="btn-submit" [disabled]="employeeForm.invalid || isLoading">
+        {{ editIndex === null ? 'Guardar' : 'Actualizar' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla de empleados -->
+  <table class="city-table" *ngIf="!isLoading">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Tipo Doc</th>
+        <th>Número</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Rol</th>
+        <th>Hotel</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of employees; let i = index">
+        <td>{{ emp.firstName }}</td>
+        <td>{{ emp.lastName }}</td>
+        <td>{{ emp.documentTypeName }}</td>
+        <td>{{ emp.documentNumber }}</td>
+        <td>{{ emp.email }}</td>
+        <td>{{ emp.phone }}</td>
+        <td>{{ emp.rolName }}</td>
+        <td>{{ emp.hotelName }}</td>
+        <td>
+          <button class="btn-action" (click)="editEmployee(i)">Editar</button>
+          <button class="btn-delete" (click)="deleteEmployee(emp.id)" [disabled]="isLoading">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-

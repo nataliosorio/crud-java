@@ -1,31 +1,96 @@
 <div class="city-container">
-    <h2>Lista de Hoteles</h2>
-    <table class="city-table">
-      <thead>
-        <tr>
-          <!-- <th>#</th> -->
-          <th>Nombre</th>
-          <th>Address</th>
-          <th>Phone</th>
-          <th>email</th>
-          <th>stars</th>
-          <th>City</th>
+  <h2>Lista de Hoteles</h2>
+
+  <!-- Botones -->
+  <button (click)="toggleForm()" class="btn-toggle" [disabled]="isLoading">
+    {{ showForm ? 'Cancelar' : 'Crear Hotel' }}
+  </button>
+  <button (click)="refrescar()" class="btn-action">Refrescar</button>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator">Cargando...</div>
+
+  <!-- Formulario para crear o editar hotel -->
+  <div *ngIf="showForm" class="hotel-form">
+    <form [formGroup]="hotelForm" (ngSubmit)="editIndex === null ? submitForm() : updateHotel()">
+
+      <label for="name">Nombre:</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Nombre del hotel"
+        class="form-input"
+      />
+
+      <label for="address">Dirección:</label>
+      <input
+        id="address"
+        type="text"
+        formControlName="address"
+        placeholder="Dirección"
+        class="form-input"
+      />
+
+      <label for="phone">Teléfono:</label>
+      <input
+        id="phone"
+        type="text"
+        formControlName="phone"
+        placeholder="Teléfono"
+        class="form-input"
+      />
+
+      <label for="email">Correo electrónico:</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        placeholder="ejemplo@correo.com"
+        class="form-input"
+      />
+
+      <!-- Selector de ciudad -->
+      <label for="idCity">Ciudad:</label>
+      <select id="idCity" formControlName="idCity" class="form-input">
+        <option [ngValue]="null" disabled selected>Seleccione una ciudad</option>
+        <option *ngFor="let cities of city" [ngValue]="cities.id">{{ cities.name }}</option>
+      </select>
 
 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let city of typeRoom; index as i">
-          <!-- <td>{{ i + 1 }}</td> -->
-          <td>{{ city.name }}</td>
-          <td>{{ city.address }}</td>
-          <td>{{ city.phone}}</td>
-          <td>{{ city.email}}</td>
-          <td>{{ city.starts}}</td>
-          <td>{{ city.cityName}}</td>
+      <button type="submit" [disabled]="hotelForm.invalid || isLoading" class="btn-submit">
+        {{ editIndex === null ? 'Guardar' : 'Actualizar' }}
+      </button>
 
 
-        </tr>
-      </tbody>
-    </table>
+     
+    </form>
+  </div>
+
+  <!-- Tabla de hoteles -->
+  <table class="city-table" *ngIf="hotels.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+        <th>Ciudad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let hotel of hotels; index as i; trackBy: trackByHotelId">
+        <td>{{ hotel.name }}</td>
+        <td>{{ hotel.address }}</td>
+        <td>{{ hotel.phone }}</td>
+        <td>{{ hotel.email }}</td>
+        <td>{{ hotel.cityName }}</td>
+        <td>
+          <button (click)="editHotel(i)" class="btn-action" [disabled]="isLoading">Editar</button>
+          <button (click)="deleteHotel(hotel.id)" class="btn-delete">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

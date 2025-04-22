@@ -25,4 +25,9 @@ public class requestCity {
         return id;
     }
 
+    public requestCity() {
+    }
+
+    
+
 }

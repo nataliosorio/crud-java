@@ -37,13 +37,25 @@ public class DocumentTypeService {
         );
     }
 
-    public void update(requestDocumentType typeRoomUpdate) {
-        var TypeRoom = finByIdTypeRooms(typeRoomUpdate.getId());
-        if (TypeRoom.isPresent()) {
-            TypeRoom.get().setName(typeRoomUpdate.getName());
-            documentTypeData.save(TypeRoom.get());
-        }
+    
+
+       public requestDocumentType update(int id, requestDocumentType typeRoomUpdate) {
+        DocumentType room = documentTypeData.findById(id)
+            .orElseThrow(() -> new RuntimeException("Tipo de documento no encontrada con ID: " + id));
+
+        room.setName(typeRoomUpdate.getName());
+    
+
+        DocumentType updatedRoom = documentTypeData.save(room);
+
+        requestDocumentType updatedDto = new requestDocumentType();
+        updatedDto.setId(updatedRoom.getId());
+        updatedDto.setName(updatedRoom.getName());
+
+        return updatedDto;
+
     }
+
 
     public responseDTO delete(int id) {
         var typeRoom = finByIdTypeRooms(id);

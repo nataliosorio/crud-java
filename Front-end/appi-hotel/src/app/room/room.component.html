@@ -1,29 +1,83 @@
 <div class="city-container">
-    <h2>Lista de Habitaciones</h2>
-    <table class="city-table">
-      <thead>
-        <tr>
-          <!-- <th>#</th> -->
-          <th>Número de habitación</th>
-          <th>Nombre</th>
-          <th>Estado</th>
-          <th>Hotel</th>
-          <th>Tipo de habitación</th>
+  <h2>Lista de Habitaciones</h2>
 
+  <!-- Botón para mostrar/ocultar el formulario -->
+  <button (click)="toggleForm()" class="btn-toggle" [disabled]="isLoading">
+    {{ showForm ? 'Cancelar' : 'Crear Habitación' }}
+  </button>
+  <button (click)="refrescar()" class="btn-action">Refrescar</button>
 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let city of typeRoom; index as i">
-          <!-- <td>{{ i + 1 }}</td> -->
-          <td>{{ city.roomNumber }}</td>
-          <td>{{ city.roomTypeName}}</td>
-          <td>{{ city.status}}</td>
-          <td>{{ city.hotelName}}</td>
-          <td>{{ city.roomTypeName}}</td>
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator">
+    Cargando...
+  </div>
 
+  <!-- Formulario para crear o editar habitación -->
+  <div *ngIf="showForm" class="room-form">
+    <form [formGroup]="roomForm" (ngSubmit)="editIndex === null ? submitForm() : updateRoom()">
+      <label for="name">Nombre:</label>
+      <input id="name" type="text" formControlName="name" placeholder="Nombre de la habitación" class="form-input" />
 
-        </tr>
-      </tbody>
-    </table>
+      <label for="status">Estado:</label>
+      <input id="status" type="text" formControlName="status" placeholder="Disponible / Ocupado" class="form-input" />
+
+      <label for="roomNumber">Número de Habitación:</label>
+      <input id="roomNumber" type="number" formControlName="roomNumber" placeholder="Ej: 101" class="form-input" />
+
+      
+       <!-- Selector de Hotel -->
+       <label for="idHotel">Hotel:</label>
+       <select id="idHotel" formControlName="idHotel" class="form-input">
+        <option [ngValue]="null" disabled selected>Seleccione una ciudad</option>
+         <option *ngFor="let hotel of hotel" [value]="hotel.id">{{ hotel.name }}</option>
+       </select>
+ 
+       <!-- Selector de Tipo de Habitación -->
+       <label for="idTypeRoom">Tipo de Habitación:</label>
+       <select id="idTypeRoom" formControlName="idTypeRoom" class="form-input">
+        <option [ngValue]="null" disabled selected>Seleccione una ciudad</option>
+         <option *ngFor="let type of typeRoom" [value]="type.id">{{ type.name }}</option>
+       </select>
+
+      
+
+    
+      
+
+      <button type="submit" [disabled]="roomForm.invalid || isLoading" class="btn-submit">
+        {{ editIndex === null ? 'Guardar' : 'Actualizar' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla de habitaciones -->
+  <table class="city-table" *ngIf="rooms.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Estado</th>
+        <th>Número</th>
+        <th>Hotel</th>
+        <th>Tipo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms; index as i; trackBy: trackByRoomId">
+        <td>{{ room.name }}</td>
+        <td>{{ room.status }}</td>
+        <td>{{ room.roomNumber }}</td>
+        <td>{{ room.hotelName }}</td>
+        <td>{{ room.roomTypeName }}</td>
+        <td>
+          <button (click)="editRoom(i)" class="btn-action">Editar</button>
+          <button (click)="deleteRoom(room.id)" class="btn-delete">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="rooms.length === 0 && !isLoading" class="empty-state">
+    No hay habitaciones registradas.
+  </div>
 </div>

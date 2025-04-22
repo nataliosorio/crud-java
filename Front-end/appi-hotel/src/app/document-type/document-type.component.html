@@ -1,17 +1,56 @@
 <div class="city-container">
-    <h2>Lista de Tipos de Documentos</h2>
-    <table class="city-table">
-      <thead>
-        <tr>
-          <!-- <th>#</th> -->
-          <th>Nombre</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let city of document; index as i">
-          <!-- <td>{{ i + 1 }}</td> -->
-          <td>{{ city.name }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Tipos de Documento</h2>
+
+  <!-- Botones de acción -->
+  <button (click)="toggleForm()" class="btn-toggle" [disabled]="isLoading">
+    {{ showForm ? 'Cancelar' : 'Crear Tipo de Documento' }}
+  </button>
+  <button (click)="refrescar()" class="btn-action">Refrescar</button>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator">Cargando...</div>
+
+  <!-- Formulario -->
+  <div *ngIf="showForm" class="document-form">
+    <form [formGroup]="documentForm" (ngSubmit)="editIndex === null ? submitForm() : updateDocumentType()">
+      <label for="name">Nombre:</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Nombre del tipo de documento"
+        class="form-input"
+      />
+
+      <button type="submit" class="btn-submit" [disabled]="documentForm.invalid">
+        {{ editIndex === null ? 'Guardar' : 'Actualizar' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla de tipos de documento -->
+  <table class="city-table" *ngIf="!isLoading && documentTypes.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let doc of documentTypes; let i = index">
+        <td>{{ doc.name }}</td>
+        <td>
+          <!-- <button class="btn-edit" (click)="editDocumentType(i)">Editar</button>
+          <button class="btn-delete" (click)="deleteDocumentType(doc.id)">Eliminar</button> -->
+          <button (click)="editDocumentType(i)" class="btn-action" [disabled]="isLoading">Editar</button>
+          <button (click)="deleteCity(doc.id)" class="btn-delete" [disabled]="isLoading">Eliminar</button>
+        
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!isLoading && documentTypes.length === 0" class="no-data">
+    No hay tipos de documento registrados.
+  </div>
 </div>

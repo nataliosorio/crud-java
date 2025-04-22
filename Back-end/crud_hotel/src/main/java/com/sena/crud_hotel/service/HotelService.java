@@ -34,7 +34,7 @@ public class HotelService {
         dto.setAddress(hotel.getAddress());
         dto.setPhone(hotel.getPhone());
         dto.setEmail(hotel.getEmail());
-        dto.setStars(hotel.getStars());
+        // dto.setStars(hotel.getStars());
         dto.setidCity(hotel.getId());
         dto.setCityName(hotel.getName());
     
@@ -56,7 +56,7 @@ public class HotelService {
         hotel.setAddress(roomDTO.getAddress());
         hotel.setPhone(roomDTO.getPhone());
         hotel.setEmail(roomDTO.getEmail());
-        hotel.setStars(roomDTO.getStarts());
+        // hotel.setStars(roomDTO.getStarts());
         hotel.setCity(city);
 
  
@@ -73,7 +73,7 @@ public class HotelService {
         dto.setAddress(room.getAddress());
         dto.setPhone(room.getPhone());
         dto.setEmail(room.getEmail());
-        dto.setStars(room.getStars());
+        // dto.setStars(room.getStars());
     
         dto.setidCity(room.getCity().getId());
         dto.setCityName(room.getCity().getName());
@@ -89,7 +89,7 @@ public class HotelService {
         room.setAddress(dto.getAddress());
         room.setPhone(dto.getPhone());
         room.setEmail(dto.getEmail());
-        room.setStars(dto.getStarts());
+        // room.setStars(dto.getStarts());
 
     
     
@@ -105,7 +105,7 @@ public class HotelService {
         updatedDto.setAddress(updatedRoom.getAddress());
         updatedDto.setPhone(updatedRoom.getPhone());
         updatedDto.setEmail(updatedRoom.getEmail());
-        updatedDto.setStars(updatedRoom.getStars());
+        // updatedDto.setStars(updatedRoom.getStars());
 
         updatedDto.setidCity(city.getId());
         updatedDto.setCityName(city.getName());

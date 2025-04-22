@@ -1,21 +1,83 @@
+
 <div class="city-container">
-    <h2>Lista de Ciudades</h2>
-    <table class="city-table">
-      <thead>
-        <tr>
-          <!-- <th>#</th> -->
-          <th>Nombre</th>
-          <th>PriceDay</th>
-          <th>PriceNight</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let city of typeRoom; index as i">
-          <!-- <td>{{ i + 1 }}</td> -->
-          <td>{{ city.name }}</td>
-          <td>{{ city.priceDay }}</td>
-          <td>{{ city.priceNight}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Lista de Tipo de Habitaciones</h2>
+
+  <!-- Botón para mostrar/ocultar el formulario -->
+  <button (click)="toggleForm()" class="btn-toggle" [disabled]="isLoading">
+    {{ showForm ? 'Cancelar' : 'Crear Ciudad' }}
+  </button>
+  <button (click)="refrescar()" class="btn-action">refrescar</button>
+
+
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator">
+    Cargando...
+  </div>
+
+  <!-- Formulario para crear o editar una habitación -->
+<div *ngIf="showForm" class="room-form">
+  <form [formGroup]="roomForm" (ngSubmit)="editIndex === null ? submitForm() : updateRoom()">
+    <label for="name">Nombre:</label>
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      placeholder="Nombre del tipo de habitación"
+      class="form-input"
+    />
+
+    <label for="priceDay">Precio por Día:</label>
+    <input
+      id="priceDay"
+      type="number"
+      formControlName="priceDay"
+      placeholder="Precio por día"
+      class="form-input"
+    />
+
+    <label for="priceNight">Precio por Noche:</label>
+    <input
+      id="priceNight"
+      type="number"
+      formControlName="priceNight"
+      placeholder="Precio por noche"
+      class="form-input"
+    />
+
+    <button type="submit" [disabled]="roomForm.invalid || isLoading" class="btn-submit">
+      {{ editIndex === null ? 'Guardar' : 'Actualizar' }}
+    </button>
+  </form>
+</div>
+
+  <!-- Tabla de ciudades -->
+  <table class="city-table" *ngIf="rooms.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>PriceDay</th>
+        <th>PriceNight</th>
+
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let city of rooms; index as i; trackBy: trackByRoomId">
+        <td>{{ city.name }}</td>
+        <td>{{ city.priceDay }}</td>
+        <td>{{ city.priceNight }}</td>
+
+
+        <td>
+          <button (click)="editRoom(i)" class="btn-action" [disabled]="isLoading">Editar</button>
+          <button (click)="deleteCity(city.id)" class="btn-delete" [disabled]="isLoading">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Mensaje cuando no hay ciudades -->
+  <div *ngIf="!isLoading && rooms.length === 0" class="no-cities">
+    No hay ciudades registradas. ¡Crea una!
+  </div>
 </div>

@@ -37,12 +37,29 @@ public class RolService {
         );
     }
 
-    public void update(requestRol typeRoomUpdate) {
-        var TypeRoom = finByIdTypeRooms(typeRoomUpdate.getId());
-        if (TypeRoom.isPresent()) {
-            TypeRoom.get().setName(typeRoomUpdate.getName());
-            rolData.save(TypeRoom.get());
-        }
+    // public void update(requestRol typeRoomUpdate) {
+    //     var TypeRoom = finByIdTypeRooms(typeRoomUpdate.getId());
+    //     if (TypeRoom.isPresent()) {
+    //         TypeRoom.get().setName(typeRoomUpdate.getName());
+    //         rolData.save(TypeRoom.get());
+    //     }
+    // }
+
+
+    public requestRol update(int id, requestRol typeRoomUpdate) {
+        Role room = rolData.findById(id)
+            .orElseThrow(() -> new RuntimeException("Rol no encontrada con ID: " + id));
+
+        room.setName(typeRoomUpdate.getName());
+
+        Role updatedRoom = rolData.save(room);
+
+        requestRol updatedDto = new requestRol();
+        updatedDto.setId(updatedRoom.getId());
+        updatedDto.setName(updatedRoom.getName());
+
+        return updatedDto;
+
     }
 
     public responseDTO delete(int id) {

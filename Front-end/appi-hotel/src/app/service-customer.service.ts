@@ -1,15 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 export interface Customer {
   id: number;
   firstName: string;
   lastName: string;
+  idDocumentType :number;
   documentName: string;
   documentNumber: string;
-  email: number;
   phone: string;
+  email: number;
+
 }
 
 @Injectable({
@@ -21,7 +23,29 @@ export class ServiceCustomerService {
 
   constructor(private http: HttpClient) {}
 
-  getHotel(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.apiUrl);
+  // Método para manejar errores HTTP
+  private handleError(error: HttpErrorResponse) {
+    console.error('Error HTTP:', error);
+    return throwError(() => new Error('Ocurrió un error en la petición. Por favor intenta de nuevo.'));
+  }
+
+  getRooms(): Observable<Customer[]> {
+    return this.http.get<Customer[]>(this.apiUrl)
+      .pipe(catchError(this.handleError));
+  }
+
+  addRoom(city: Omit<Customer, 'id'>): Observable<Customer> {
+    return this.http.post<Customer>(this.apiUrl, city)
+      .pipe(catchError(this.handleError));
+  }
+
+  updateRoom(city: Customer): Observable<Customer> {
+    return this.http.put<Customer>(`${this.apiUrl}${city.id}`, city)
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteRoom(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}${id}`)
+      .pipe(catchError(this.handleError));
   }
 }

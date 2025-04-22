@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 
 
 export interface City {
@@ -17,7 +17,29 @@ export class ServiceCityService {
 
   constructor(private http: HttpClient) {}
 
+  // Método para manejar errores HTTP
+  private handleError(error: HttpErrorResponse) {
+    console.error('Error HTTP:', error);
+    return throwError(() => new Error('Ocurrió un error en la petición. Por favor intenta de nuevo.'));
+  }
+
   getCities(): Observable<City[]> {
-    return this.http.get<City[]>(this.apiUrl);
+    return this.http.get<City[]>(this.apiUrl)
+      .pipe(catchError(this.handleError));
+  }
+
+  addCity(city: Omit<City, 'id'>): Observable<City> {
+    return this.http.post<City>(this.apiUrl, city)
+      .pipe(catchError(this.handleError));
+  }
+
+  updateCity(city: City): Observable<City> {
+    return this.http.put<City>(`${this.apiUrl}${city.id}`, city)
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteCity(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}${id}`)
+      .pipe(catchError(this.handleError));
   }
 }

@@ -45,9 +45,11 @@ public class DocumentTypeController {
     }
 
 
-    @PutMapping("/")
-    public String update(@RequestBody requestDocumentType typeRoom){
-        documentTypeService.update(typeRoom);
+ 
+
+      @PutMapping("/{id}")
+    public String update(@PathVariable int id, @RequestBody requestDocumentType typeRoom){
+        documentTypeService.update(id,typeRoom);
        return "Register actualizado correctamente";
     }
 

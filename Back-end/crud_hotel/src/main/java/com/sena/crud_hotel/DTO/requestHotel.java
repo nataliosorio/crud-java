@@ -7,21 +7,21 @@ public class requestHotel {
     private String address;
     private String phone;
     private String email;
-    private int stars;
+    // private int stars;
     private int idCity;
     private String cityName;
 
     public requestHotel() {
     }
 
-    public requestHotel(int id, String name, String address, String phone, String email, int stars, int idCity, String cityName) {
+    public requestHotel(int id, String name, String address, String phone, String email, int idCity, String cityName) {
         this.id = id;
         this.name = name;
         this.address = address;
         // this.city = city;
         this.phone = phone;
         this.email = email;
-        this.stars = stars;
+        // this.stars = stars;
         this.idCity = idCity;
         this.cityName = cityName;
     }
@@ -77,13 +77,13 @@ public class requestHotel {
         this.email = email;
     }
 
-    public int getStarts() {
-        return stars;
-    }
+    // public int getStarts() {
+    //     return stars;
+    // }
 
-    public void setStars(int starts){
-        this.stars = starts;
-    }
+    // public void setStars(int starts){
+    //     this.stars = starts;
+    // }
 
     public int getidCity() {
         return idCity;

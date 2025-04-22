@@ -1,17 +1,55 @@
 <div class="city-container">
-    <h2>Lista de Roles</h2>
-    <table class="city-table">
-      <thead>
-        <tr>
-          <!-- <th>#</th> -->
-          <th>Nombre</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let city of rol; index as i">
-          <!-- <td>{{ i + 1 }}</td> -->
-          <td>{{ city.name }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Lista de Roles</h2>
+
+  <!-- Botón para mostrar/ocultar el formulario -->
+  <button (click)="toggleForm()" class="btn-toggle" [disabled]="isLoading">
+    {{ showForm ? 'Cancelar' : 'Crear Rol' }}
+  </button>
+  <button (click)="refrescar()" class="btn-action">Refrescar</button>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator">
+    Cargando...
+  </div>
+
+  <!-- Formulario para crear o editar -->
+  <div *ngIf="showForm" class="rol-form">
+    <form [formGroup]="rolForm" (ngSubmit)="editIndex === null ? submitForm() : updateRol()">
+      <label for="name">Nombre del Rol:</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Nombre del rol"
+        class="form-input"
+      />
+
+      <button type="submit" [disabled]="rolForm.invalid || isLoading" class="btn-submit">
+        {{ editIndex === null ? 'Guardar' : 'Actualizar' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla de roles -->
+  <table class="city-table" *ngIf="roles.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rol of roles; index as i; trackBy: trackByRolId">
+        <td>{{ rol.name }}</td>
+        <td>
+          <button (click)="editRol(i)" class="btn-action">Editar</button>
+          <button (click)="deleteRol(i)" class="btn-delete" [disabled]="isLoading">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="roles.length === 0 && !isLoading" class="empty-message">
+    No hay roles disponibles.
+  </div>
 </div>

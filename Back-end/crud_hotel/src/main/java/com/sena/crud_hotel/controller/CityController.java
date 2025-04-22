@@ -45,11 +45,13 @@ public class CityController {
     }
 
 
-    @PutMapping("/")
-    public String update(@RequestBody requestCity typeRoom){
-        cityService.update(typeRoom);
+    @PutMapping("/{id}")
+    public String update(@PathVariable int id, @RequestBody requestCity typeRoom){
+        cityService.update(id,typeRoom);
        return "Register actualizado correctamente";
     }
+
+   
 
 
      @DeleteMapping("/{id}")

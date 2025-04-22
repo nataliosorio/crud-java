@@ -45,9 +45,15 @@ public class RolController {
     }
 
 
-    @PutMapping("/")
-    public String update(@RequestBody requestRol typeRoom){
-        rolService.update(typeRoom);
+    // @PutMapping("/")
+    // public String update(@RequestBody requestRol typeRoom){
+    //     rolService.update(typeRoom);
+    //    return "Register actualizado correctamente";
+    // }
+
+      @PutMapping("/{id}")
+    public String update(@PathVariable int id, @RequestBody requestRol typeRoom){
+        rolService.update(id,typeRoom);
        return "Register actualizado correctamente";
     }
 
